@@ -26,7 +26,7 @@ def sub_calc(val):
             grtst_increase = int(row[1])
             grtst_decrease = int(row[1])
             cnt = 99
-            # print(yr)
+            print(yr)
 
         if yr != row[0]:
             cnt_yr = cnt_yr + 1
@@ -44,9 +44,12 @@ def sub_calc(val):
             grtst_decrease = curr_val
             grst_chg_dcrs = curr_val - prior_val
             grtst_dcrs_yr = row[0]
-    
+
+
         # Calvulate net_change
-        tot_change = tot_change + (curr_val - prior_val)
+        if row[0] != "Jan-2010" : 
+            tot_change = tot_change + (curr_val - prior_val)
+        
        
         # Assigning prior value
 
@@ -55,7 +58,7 @@ def sub_calc(val):
         
     # End of For Loop
 
-    avg_change_prnt = float(tot_change/cnt_yr)
+    avg_change_prnt = float(tot_change/cnt_yr-1)
 
     # Formatting values for printing
     net_amount_str = '${:,.2f}'.format(net_amount)
@@ -74,15 +77,13 @@ def sub_calc(val):
 
 ## End of function sub_calc()
 
-def WriteFile(fh,val):
-
-    with open(fh,'w') as txtfile:
-        txtfile.append(val)
-
-## End of function WriteFile()
 
 '''
+    ***************************************
+    *                                     *
     ******* Main part of the script *******
+    *                                     *
+    ***************************************
 '''
 
 
@@ -107,13 +108,12 @@ with open(budgetCSV, 'r') as csvfile:
         csv_header = next(csvreader)
         print(f'Header: {csv_header}')
 
-
-
         for x in sub_calc(csvreader):
             print(x)
             txtfile.write(x)
             txtfile.write("\n")
 
+# Close file handles for both input and output files
 csvfile.close()
 txtfile.close()
 
